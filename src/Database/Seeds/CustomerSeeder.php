@@ -4,7 +4,7 @@ namespace Adnduweb\Ci4_customer\Database\Seeds;
 
 use joshtronic\LoremIpsum;
 
-class ClientSeeder extends \CodeIgniter\Database\Seeder
+class CustomerSeeder extends \CodeIgniter\Database\Seeder
 {
     //\\Adnduweb\\Ci4_customer\\Database\\Seeds\\BlogSeeder
     /**
@@ -237,10 +237,10 @@ class ClientSeeder extends \CodeIgniter\Database\Seeder
 
         // On insére le role par default au user
         foreach ($rowsPermissionsEcommerce as $row) {
-            $tabRow =  $db->table('authf_permissions')->where(['name' => $row['name']])->get()->getRow();
+            $tabRow =  $db->table('auth_permissions')->where(['name' => $row['name']])->get()->getRow();
             if (empty($tabRow)) {
                 // No langue - add the row
-                $db->table('authf_permissions')->insert($row);
+                $db->table('auth_permissions')->insert($row);
             }
         }
 

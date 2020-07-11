@@ -178,8 +178,6 @@ class AuthenticationBase
     {
         helper('cookie');
 
-        $customer = $this->customer();
-
         // Destroy the session data - but ensure a session is still
         // available for flash messages, etc.
         if (isset($_SESSION)) {
