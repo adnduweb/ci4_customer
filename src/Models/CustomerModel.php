@@ -8,8 +8,13 @@ use Adnduweb\Ci4_customer\Entities\Customer;
 
 class CustomerModel extends UuidModel
 {
-    protected $table = 'authf_customer';
+    use \Tatter\Relations\Traits\ModelTrait, \Adnduweb\Ci4_logs\Traits\AuditsTrait, \App\Models\BaseModel;
+
+    protected $table      = 'authf_customer';
+    protected $tableLang  = false;
     protected $primaryKey = 'id';
+    protected $with       = ['authf_groups_customer'];
+    protected $without    = [];
     protected $uuidFields = ['uuid'];
 
     protected $returnType = Customer::class;
@@ -37,6 +42,45 @@ class CustomerModel extends UuidModel
      * @var int
      */
     protected $assignGroup;
+
+   
+    protected $searchKtDatatable  = ['fonction', 'lastname', 'firstname', 'email', 'created_at'];
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->builder      = $this->db->table('authf_customer');
+        $this->authf_groups_customer      = $this->db->table('authf_groups_customer');
+    }
+
+    public function getAllList(int $page, int $perpage, array $sort, array $query)
+    {
+        $usersRow = $this->getBaseAllList($page, $perpage, $sort, $query, $this->searchKtDatatable);
+
+        if (!empty($usersRow)) {
+            $i = 0;
+            foreach ($usersRow as &$row) {
+                $this->authf_groups_customer->select();
+                $this->authf_groups_customer->join('authf_groups', 'authf_groups.id = authf_groups_customer.group_id');
+                $this->authf_groups_customer->where('customer_id', $row->id);
+                $authf_groups_customer = $this->authf_groups_customer->get();
+                $row->group = $authf_groups_customer->getResult();
+                // if (!empty($row->group)) {
+                //     foreach ($row->group as $group) {
+                //         if ($group->group_id == '1') {
+                //             unset($usersRow[$i]);
+                //         }
+                //     }
+                // }
+                $i++;
+            }
+        }
+        //array_splice($usersRow, count($usersRow));
+
+        return $usersRow;
+
+    }
+
 
     /**
      * Logs a password reset attempt for posterity sake.

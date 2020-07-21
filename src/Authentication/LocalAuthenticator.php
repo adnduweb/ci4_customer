@@ -46,11 +46,28 @@ class LocalAuthenticator extends AuthenticationBase implements AuthenticatorInte
             $ipAddress = Services::request()->getIPAddress();
             $this->recordLoginAttempt($credentials['email'] ?? $credentials['username'], $ipAddress, $this->customer->id ?? null, false);
 
-            $param = http_build_query([
-                'login' => urlencode($credentials['email'] ?? $credentials['username'])
-            ]);
+            if ($this->customer->activate_hash == true) {
+                $param = http_build_query([
+                    'login' => urlencode($credentials['email'] ?? $credentials['username'])
+                ]);
 
-            $this->error = lang('Authcustomer.notActivated') . ' ' . anchor(route_to('resend-activate-account') . '?' . $param, lang('Authcustomer.activationResend'));
+                $this->error = lang('Authcustomer.notActivated') . ' ' . anchor(route_to('resend-activate-account') . '?' . $param, lang('Authcustomer.activationResend'));
+            }else{
+                $this->error = lang('Authcustomer.notActivatedSendAdmin');
+            }
+
+
+
+            $this->customer = null;
+            return false;
+        }
+
+        if (!$this->customer->isActivated()) {
+            // Always record a login attempt, whether success or not.
+            $ipAddress = Services::request()->getIPAddress();
+            $this->recordLoginAttempt($credentials['email'] ?? $credentials['username'], $ipAddress, $this->customer->id ?? null, false);
+
+            $this->error = lang('Authcustomer.notActivatedSendAdmin');
 
             $this->customer = null;
             return false;

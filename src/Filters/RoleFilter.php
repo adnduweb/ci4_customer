@@ -74,7 +74,7 @@ class RoleFilter implements FilterInterface
 	 *
 	 * @return mixed
 	 */
-	public function after(RequestInterface $request, ResponseInterface $response)
+	public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
 	{
 	}
 

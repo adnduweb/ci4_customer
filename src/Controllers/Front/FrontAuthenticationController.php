@@ -18,7 +18,7 @@ class FrontAuthenticationController extends \App\Controllers\Front\FrontControll
     use \App\Traits\BuilderModelTrait;
     use \App\Traits\ModuleTrait;
 
-    public $name_module = 'ecommerce';
+    public $name_module = 'customer';
 
     protected $auth;
     /**
@@ -86,7 +86,7 @@ class FrontAuthenticationController extends \App\Controllers\Front\FrontControll
         $this->data['config'] = $this->config;
 
 
-        return view($this->get_current_theme_view('__template_part/ecommerce/sign_in', 'default'), $this->data);
+        return view($this->get_current_theme_view('__template_part/customer/sign_in', 'default'), $this->data);
     }
 
     public function postProcessSignIn()
@@ -156,7 +156,7 @@ class FrontAuthenticationController extends \App\Controllers\Front\FrontControll
             return redirect()->back()->withInput()->with('error', lang('Authcustomercustomercustomer.registerDisabled'));
         }
         $this->data['config'] = $this->config;
-        return view($this->get_current_theme_view('__template_part/ecommerce/sign_up', 'default'), $this->data);
+        return view($this->get_current_theme_view('__template_part/customer/sign_up', 'default'), $this->data);
     }
 
     public function postProcessSignUp()
@@ -242,7 +242,8 @@ class FrontAuthenticationController extends \App\Controllers\Front\FrontControll
         $throttler = service('throttler');
 
         if ($throttler->check($this->request->getIPAddress(), 2, MINUTE) === false) {
-            return service('response')->setStatusCode(429)->setBody(lang('Authcustomer.tooManyRequests', [$throttler->getTokentime()]));
+            //return service('response')->setStatusCode(429)->setBody(lang('Authcustomer.tooManyRequests', [$throttler->getTokentime()]));
+            return redirect()->route('signin')->with('error', lang('Authcustomer.tooManyRequests', [$throttler->getTokentime()]));
         }
 
         $customer = $customers->where('activate_hash', $this->request->getGet('token'))
@@ -258,6 +259,56 @@ class FrontAuthenticationController extends \App\Controllers\Front\FrontControll
         $customers->save($customer);
 
         return redirect()->route('signin')->with('message', lang('Authcustomer.registerSuccess'));
+    }
+
+    /**
+     * Activate account.
+     *
+     * @return mixed
+     */
+    public function resendActivateAccount()
+    {
+
+        //http://startci44.lan/resend-activate-account?login=fabrice%2540adnduweb.com
+        if ($this->config->requireActivation === false)
+		{
+			return redirect()->route('signin');
+        }
+        
+        echo 'dfsgsdfg'; exit;
+
+		$throttler = service('throttler');
+
+		if ($throttler->check($this->request->getIPAddress(), 2, MINUTE) === false)
+		{
+            //return service('response')->setStatusCode(429)->setBody(lang('Authcustomer.tooManyRequests', [$throttler->getTokentime()]));
+            return redirect()->route('signin')->with('error', lang('Authcustomer.tooManyRequests', [$throttler->getTokentime()]));
+		}
+
+		$login = urldecode($this->request->getGet('login'));
+		$type = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+		$customers = model('CustomerModel');
+
+		$customer = $customers->where($type, $login)
+					  ->where('active', 0)
+					  ->first();
+
+		if (is_null($customer))
+		{
+			return redirect()->route('signin')->with('error', lang('Authcustomer.activationNoUser'));
+		}
+
+		$activator = service('activator');
+		$sent = $activator->send($customer);
+
+		if (! $sent)
+		{
+			return redirect()->back()->withInput()->with('error', $activator->error() ?? lang('Authcustomer.unknownError'));
+		}
+
+		// Success!
+		return redirect()->route('signin')->with('message', lang('Authcustomer.activationSuccess'));
     }
 
     public function loginSocialGoogle()

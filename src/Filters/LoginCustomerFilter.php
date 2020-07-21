@@ -23,7 +23,7 @@ class LoginCustomerFilter implements FilterInterface
 	 *
 	 * @return mixed
 	 */
-	public function before(RequestInterface $request)
+	public function before(RequestInterface $request, $params = null)
 	{
 
 		if (!function_exists('customer_logged_in')) {
@@ -46,6 +46,13 @@ class LoginCustomerFilter implements FilterInterface
 			session()->set('redirect_url', current_url());
 			return redirect('signin');
 		}
+		
+		// On regarde si le compte est activé
+		if( customer()->active == false){
+			//echo 'sdfgdfgs'; exit;
+			$authenticate->logout();
+			return redirect('signin');
+		}
 	}
 
 	//--------------------------------------------------------------------
@@ -61,7 +68,7 @@ class LoginCustomerFilter implements FilterInterface
 	 *
 	 * @return mixed
 	 */
-	public function after(RequestInterface $request, ResponseInterface $response)
+	public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
 	{
 	}
 
