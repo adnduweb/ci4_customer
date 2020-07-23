@@ -8,7 +8,12 @@ use Adnduweb\Ci4_customer\Entities\Customer;
 
 class CustomerModel extends UuidModel
 {
-    use \Tatter\Relations\Traits\ModelTrait, \Adnduweb\Ci4_logs\Traits\AuditsTrait, \App\Models\BaseModel;
+    use \Tatter\Relations\Traits\ModelTrait, \Adnduweb\Ci4_logs\Traits\AuditsTrait, \App\Models\BaseModel, \App\Traits\NotificationsTrait;
+
+
+    protected $afterInsert = ['addToGroup', 'auditInsert', 'notificationAdminInsert'];
+    protected $afterUpdate = ['auditUpdate'];
+    protected $afterDelete = ['auditDelete'];
 
     protected $table      = 'authf_customer';
     protected $tableLang  = false;
@@ -17,7 +22,9 @@ class CustomerModel extends UuidModel
     protected $without    = [];
     protected $uuidFields = ['uuid'];
 
-    protected $returnType = Customer::class;
+    protected $returnType     = Customer::class;
+    protected $localizeFile   = 'Adnduweb\Ci4_customer\Models\CustomerModel';
+    protected $notifications  = 'event';
     protected $useSoftDeletes = true;
 
     protected $allowedFields = [
@@ -33,8 +40,6 @@ class CustomerModel extends UuidModel
     ];
     protected $validationMessages = [];
     protected $skipValidation = false;
-
-    protected $afterInsert = ['addToGroup'];
 
     /**
      * The id of a group to assign.
@@ -163,5 +168,26 @@ class CustomerModel extends UuidModel
         }
 
         return $data;
+    }
+
+    public function getAllListeAttNotification(int $verbose)
+    {
+        $instance = [];
+
+        if ($verbose == 0) {
+            $this->builder->select('uuid');
+        } else {
+            $this->builder->select('uuid, email, lastname, firstname, created_at');
+        }
+
+        $this->builder->where('is_read', 0);
+        $forms = $this->builder->get()->getResult();
+
+        if (!empty($forms)) {
+            foreach ($forms as $form) {
+                $instance[] = new Customer((array) $form);
+            }
+        }
+        return $instance;
     }
 }

@@ -9,35 +9,103 @@ use Adnduweb\Ci4_customer\Entities\Customer;
 use Adnduweb\Ci4_customer\Models\CustomerModel;
 use CodeIgniter\API\ResponseTrait;
 
-class AdminCustomersController extends AdminController
+class AdminCustomerController extends AdminController
 {
-    use ResponseTrait;
-    use \App\Traits\UuidTrait;
-    use \App\Traits\ModuleTrait;
+    use ResponseTrait, \App\Traits\UuidTrait, \App\Traits\ModuleTrait;
 
+
+    /**
+     *  uuidUser Unique Object
+     */
     protected $uuidUser;
 
-    public $module         = true;
-    public $name_module    = 'customers';
-    public $controller     = 'customers';
-    public $item           = 'customer';
-    public $type           = 'Adnduweb/Ci4_customer';
-    public $pathcontroller = '/customers/list';
-    public $fieldList      = 'username';
-    public $add            = true;
+    /**
+     *  Module Object
+     */
+    public $module = true;
+
+    /**
+     * name controller
+     */
+    public $controller = 'customer';
+
+    /**
+     * Localize slug
+     */
+    public $pathcontroller  = '/customers/list';
+
+    /**
+     * Localize namespace
+     */
+    public $namespace = 'Adnduweb/Ci4_customer';
+
+    /**
+     * Id Module
+     */
+    protected $idModule;
+
+    /**
+     * Localize slug
+     */
+    public $dirList  = 'customers';
+
+    /**
+     * Display default list column
+     */
+    public $fieldList = 'username';
+
+    /**
+     * Bouton add
+     */
+    public $add = true;
+
+    /**
+     * Display Multilangue
+     */
+    public $multilangue = true;
+
+    /**
+     * Event fake data
+     */
+    public $fake = true;
+
+    /**
+     * Update item List
+     */
+    public $toolbarUpdate = true;
+
+    /**
+     * Dossier customer
+     */
     public $folderList      = true;
+
+
+    // protected $uuidUser;
+
+    // public $module         = true;
+    // public $name_module    = 'customers';
+    // public $controller     = 'customers';
+    // public $item           = 'customer';
+    // public $type           = 'Adnduweb/Ci4_customer';
+    // public $pathcontroller = '/customers/list';
+    // public $fieldList      = 'username';
+    // public $add            = true;
+    // public $folderList      = true;
 
 
     public function __construct()
     {
         parent::__construct();
         $this->tableModel  = new CustomerModel();
-        $this->module           = "customers";
         $this->idModule         = $this->getIdModule();
+
+        $this->data['paramJs']['baseSegmentAdmin'] = config('Blog')->urlMenuAdmin;
+        $this->pathcontroller  = '/' . config('Blog')->urlMenuAdmin . '/' .  $this->dirList . $this->pathcontroller;
+
     }
     public function renderViewList()
     {
-        AssetsBO::add_js([$this->get_current_theme_view('controllers/' . $this->controller . '/js/list.js', 'default')]);
+        AssetsBO::add_js([$this->get_current_theme_view('controllers/' . $this->dirList . '/js/list.js', 'default')]);
         $parent =  parent::renderViewList();
         if (is_object($parent) && $parent->getStatusCode() == 307) {
             return $parent;
@@ -55,12 +123,12 @@ class AdminCustomersController extends AdminController
     {
         if ($value = $this->request->getPost('value')) {
             $this->uuidUser = $this->request->getPost('value');
-            $idUser = $this->getIdUserByUUID();
-            $this->data['user'] = $this->tableModel->find($idUser);
-            if (empty($this->data['user'])) {
+            $customer_id = $this->getIdUserByUUID();
+            $this->data['customer'] = $this->tableModel->find($customer_id);
+            if (empty($this->data['customer'])) {
                 throw new \RuntimeException(lang('Admin.object_not_exit'), 404);
             }
-            $this->data['getLastConnexions'] = $this->tableModel->getLastConnexions($idUser, 5);
+            $this->data['getLastConnexions'] = $this->tableModel->getLastConnexions($customer_id, 5);
 
             $modal = view($this->get_current_theme_view('controllers/' . $this->controller . '/__modals/view', 'default'), $this->data);
             $return = [
@@ -76,7 +144,7 @@ class AdminCustomersController extends AdminController
 
     public function renderForm($uuid = null)
     {
-        AssetsBO::add_js([$this->get_current_theme_view('controllers/' . $this->controller . '/js/outils.js', 'default')]);
+        AssetsBO::add_js([$this->get_current_theme_view('controllers/' . $this->dirList . '/js/outils.js', 'default')]);
         if (is_null($uuid)) {
             $this->data['form'] = new User($this->request->getPost());
         } else {
@@ -92,7 +160,7 @@ class AdminCustomersController extends AdminController
                 return redirect()->back()->withInput();
             }
             //Script
-            AssetsBO::add_js([$this->get_current_theme_view('controllers/' . $this->controller . '/js/addPermission.js', 'default')]);
+            AssetsBO::add_js([$this->get_current_theme_view('controllers/' . $this->dirList . '/js/addPermission.js', 'default')]);
 
             $permissionModel = new \App\Models\PermissionModel();
 

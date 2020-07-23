@@ -2,12 +2,12 @@
 
     $routes->group(CI_SITE_AREA, ['namespace' => 'Adnduweb\Ci4_customer\Controllers\Admin', 'filter' => 'apiauth'], function ($routes) {
 
-        $routes->get('customers/list', 'AdminCustomersController::renderViewList');
-        $routes->get('customers/edit/(:any)', 'AdminCustomersController::renderForm/$1');
-        $routes->post('customers/edit/(:any)', 'AdminCustomersController::postProcess/$1');
-        $routes->get('customers/add', 'AdminCustomersController::renderForm');
-        $routes->post('customers/add', 'AdminCustomersController::postProcess');
-        $routes->get('customers/vue', 'AdminCustomersController::Vue');
+        $routes->get('customers/list', 'AdminCustomerController::renderViewList', ['as' => 'customerList']);
+        $routes->get('customers/edit/(:any)', 'AdminCustomerController::renderForm/$1');
+        $routes->post('customers/edit/(:any)', 'AdminCustomerController::postProcess/$1');
+        $routes->get('customers/add', 'AdminCustomerController::renderForm');
+        $routes->post('customers/add', 'AdminCustomerController::postProcess');
+        $routes->get('customers/vue', 'AdminCustomerController::Vue');
 
     });
 

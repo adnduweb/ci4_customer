@@ -237,7 +237,15 @@ class Authcustomer extends BaseConfig
     // Connect Reseaux sociaux 
     //--------------------------------------------------------------------
     public $authGoogle = true;
+
     public $authFaceBook = true;
+
     public $authLayer = true;
+
+    //--------------------------------------------------------------------
+    // Durée du Nouveau client
+    //--------------------------------------------------------------------
+    public $newCustomerLength = 15 * DAY;
+
 
 }

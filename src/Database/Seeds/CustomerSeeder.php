@@ -38,30 +38,29 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
 
         // gestionde l'application
         $rowsBlogTabs = [
-            'id_parent'         => 0,
-            'depth'             => 2,
-            'left'              => 11,
-            'right'             => 19,
-            'position'          => 1,
-            'section'           => 0,
-            'module'            => 'Adnduweb\Ci4_customer',
-            'class_name'        => '',
-            'active'            =>  1,
-            'icon'              => '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-07-07-181510/theme/html/demo1/dist/../src/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+            'id_parent'  => 0,
+            'depth'      => 2,
+            'left'       => 11,
+            'right'      => 19,
+            'position'   => 1,
+            'section'    => 0,
+            'namespace'  => 'Adnduweb\Ci4_customer',
+            'class_name' => '',
+            'active'     => 1,
+            'icon'       => '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-07-07-181510/theme/html/demo1/dist/../src/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <polygon points="0 0 24 0 24 24 0 24"/>
                                         <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
                                         <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero"/>
                                     </g>
                                 </svg><!--end::Svg Icon--></span>',
-            'slug'             => 'Clients',
-            'name_controller'       => ''
+            'slug'            => 'clients',
         ];
 
         $rowsBlogTabsLangs = [
             [
                 'id_lang'         => 1,
-                'name'             => 'clients',
+                'name'             => 'customers',
             ],
             [
                 'id_lang'         => 2,
@@ -71,17 +70,16 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
 
 
         $rowsArticlesTabs = [
-            'depth'             => 3,
-            'left'              => 12,
-            'right'             => 13,
-            'position'          => 1,
-            'section'           => 0,
-            'module'            => 'Adnduweb\Ci4_customer',
-            'class_name'        => 'AdminCustomers',
-            'active'            =>  1,
-            'icon'              => '',
-            'slug'             => 'list',
-            'name_controller'       => ''
+            'depth'      => 3,
+            'left'       => 12,
+            'right'      => 13,
+            'position'   => 1,
+            'section'    => 0,
+            'namespace'  => 'Adnduweb\Ci4_customer',
+            'class_name' => 'customer',
+            'active'     => 1,
+            'icon'       => '',
+            'slug'       => 'list',
         ];
 
         $rowsArticlesTabsLangs = [
@@ -96,17 +94,16 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
         ];
 
         $rowsCatTabs = [
-            'depth'             => 3,
-            'left'              => 14,
-            'right'             => 15,
-            'position'          => 1,
-            'section'           => 0,
-            'module'            => 'Adnduweb\Ci4_customer',
-            'class_name'        => 'AdminAdresses',
-            'active'            =>  1,
-            'icon'              => '',
-            'slug'             => 'adresses',
-            'name_controller'       => ''
+            'depth'      => 3,
+            'left'       => 14,
+            'right'      => 15,
+            'position'   => 1,
+            'section'    => 0,
+            'namespace'  => 'Adnduweb\Ci4_customer',
+            'class_name' => 'adresse',
+            'active'     => 1,
+            'icon'       => '',
+            'slug'       => 'adresses',
         ];
 
         $rowsCatTabsLangs = [
@@ -121,17 +118,16 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
         ];
 
         $rowsManTabs = [
-            'depth'             => 3,
-            'left'              => 15,
-            'right'             => 16,
-            'position'          => 4,
-            'section'           => 0,
-            'module'            => 'Adnduweb\Ci4_customer',
-            'class_name'        => 'AdminGroupes',
-            'active'            =>  1,
-            'icon'              => '',
-            'slug'             => 'groupes',
-            'name_controller'       => ''
+            'depth'      => 3,
+            'left'       => 15,
+            'right'      => 16,
+            'position'   => 4,
+            'section'    => 0,
+            'namespace'  => 'Adnduweb\Ci4_customer',
+            'class_name' => 'groupe',
+            'active'     => 1,
+            'icon'       => '',
+            'slug'       => 'groupes',
         ];
 
         $rowsManTabsLangs = [
@@ -145,7 +141,7 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
             ],
         ];
 
-        $tabBlog = $db->table('tabs')->where('class_name', $rowsBlogTabs['class_name'])->get()->getRow();
+        $tabBlog = $db->table('tabs')->where('class_name', $rowsBlogTabs['class_name'])->where('namespace', $rowsBlogTabs['namespace'])->get()->getRow();
         //print_r($tab); exit;
         if (empty($tabBlog)) {
             // No setting - add the row
@@ -160,7 +156,7 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
             }
 
             // on insere les articles
-            $tabArticles = $db->table('tabs')->where('class_name', $rowsArticlesTabs['class_name'])->get()->getRow();
+            $tabArticles = $db->table('tabs')->where('class_name', $rowsArticlesTabs['class_name'])->where('namespace', $rowsArticlesTabs['namespace'])->get()->getRow();
             //print_r($tab); exit;
             if (empty($tabArticles)) {
                 // No setting - add the row
@@ -177,7 +173,7 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
             }
 
             // On Insére les categories
-            $tabCategorie = $db->table('tabs')->where('class_name', $rowsCatTabs['class_name'])->get()->getRow();
+            $tabCategorie = $db->table('tabs')->where('class_name', $rowsCatTabs['class_name'])->where('namespace', $rowsCatTabs['namespace'])->get()->getRow();
             //print_r($tab); exit;
             if (empty($tabCategorie)) {
                 // No setting - add the row
@@ -194,7 +190,7 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
             }
 
             // On Insére les brands
-            $tabCategorie = $db->table('tabs')->where('class_name', $rowsManTabs['class_name'])->get()->getRow();
+            $tabCategorie = $db->table('tabs')->where('class_name', $rowsManTabs['class_name'])->where('namespace', $rowsManTabs['namespace'])->get()->getRow();
             //print_r($tab); exit;
             if (empty($tabCategorie)) {
                 // No setting - add the row
@@ -219,7 +215,7 @@ class CustomerSeeder extends \CodeIgniter\Database\Seeder
          */
         $rowsPermissionsEcommerce = [
             [
-                'name'              => 'Customer::views',
+                'name'              => 'Customer::view',
                 'description'       => 'Voir les Produits',
                 'is_natif'          => '0',
             ],

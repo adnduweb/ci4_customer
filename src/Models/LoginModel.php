@@ -10,6 +10,8 @@ class LoginModel extends Model
     protected $primaryKey = 'id';
 
     protected $returnType = 'object';
+    protected $localizeFile   = 'Adnduweb\Ci4_customer\Models\LoginModel';
+    protected $notifications  = 'alerts';
     protected $useSoftDeletes = false;
 
     protected $allowedFields = [
