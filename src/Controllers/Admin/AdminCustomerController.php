@@ -32,7 +32,7 @@ class AdminCustomerController extends AdminController
     /**
      * Localize slug
      */
-    public $pathcontroller  = '/customers/list';
+    public $pathcontroller  = '/list';
 
     /**
      * Localize namespace
@@ -77,20 +77,9 @@ class AdminCustomerController extends AdminController
     /**
      * Dossier customer
      */
-    public $folderList      = true;
+    public $folderList   = true;
 
 
-    // protected $uuidUser;
-
-    // public $module         = true;
-    // public $name_module    = 'customers';
-    // public $controller     = 'customers';
-    // public $item           = 'customer';
-    // public $type           = 'Adnduweb/Ci4_customer';
-    // public $pathcontroller = '/customers/list';
-    // public $fieldList      = 'username';
-    // public $add            = true;
-    // public $folderList      = true;
 
 
     public function __construct()
@@ -99,8 +88,8 @@ class AdminCustomerController extends AdminController
         $this->tableModel  = new CustomerModel();
         $this->idModule         = $this->getIdModule();
 
-        $this->data['paramJs']['baseSegmentAdmin'] = config('Blog')->urlMenuAdmin;
-        $this->pathcontroller  = '/' . config('Blog')->urlMenuAdmin . '/' .  $this->dirList . $this->pathcontroller;
+        $this->data['paramJs']['baseSegmentAdmin'] = config('Authcustomer')->urlMenuAdmin;
+        $this->pathcontroller  = config('Authcustomer')->urlMenuAdmin . '/' .  $this->dirList . $this->pathcontroller;
 
     }
     public function renderViewList()
